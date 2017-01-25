@@ -1,1 +1,1 @@
-(a V b)&(ra)&(b)
+(a V b)&(ra V c)

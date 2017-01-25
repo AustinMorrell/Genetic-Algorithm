@@ -7,7 +7,7 @@ from random import randint
 #& = 'and'
 
 population = []
-a = 0
+a = 1
 b = 1
 c = 0
 d = 1
@@ -16,7 +16,7 @@ parent1 = []
 parent2 = []
 temp = []
 notDone = True
-muteRate = 10
+muteRate = 50
 
 def Mutate(L):
 	if (randint(0, 100)) < muteRate:
@@ -29,19 +29,20 @@ def Mutate(L):
 		while lastCount < int(round(len(L) / 2)) - 1:
 			if lastCount == 0:
 			 a = not a
-			if lastCount == 1:
+			elif lastCount == 1:
 			 b = not b
-			if lastCount == 2:
+			elif lastCount == 2:
 			 c = not c
-			if lastCount == 3:
+			elif lastCount == 3:
 			 d = not d
-			if lastCount == 4:
+			elif lastCount == 4:
 			 e = not e
 		lastCount += 1
-	return 0
 
 def crossEven():
-	start = (len(parent1) / 2) - 1
+	global parent1
+	global parent2
+	start = (len(parent1) / 2)
 	tempCount = start
 	while tempCount < len(parent1):
 		temp[tempCount] = parent1[tempCount]
@@ -56,10 +57,11 @@ def crossEven():
 		parent1[tempCount - start] = not parent1[tempCount]
 		parent2[tempCount - start] = not parent2[tempCount]
 		tempCount += 1
-	return 0
 
 def crossOdd():
-	start = int(round(len(parent2) / 2)) - 1
+	global parent1
+	global parent2
+	start = int(round(len(parent1) / 2))
 	tempCount = start
 	while tempCount < len(parent1):
 		temp[tempCount] = parent1[tempCount]
@@ -74,7 +76,6 @@ def crossOdd():
 		parent1[tempCount - start] = not parent1[tempCount]
 		parent2[tempCount - start] = not parent2[tempCount]
 		tempCount += 1
-	return 0
 
 def changeLiterals(L):
 	lastCount = 0
@@ -83,22 +84,54 @@ def changeLiterals(L):
 	global c
 	global d
 	global e
+	global parent1
+	global parent2
+	print(parent1)
 	while lastCount < len(L):
 		if lastCount == 0:
 			 a = parent1[lastCount]
-		if lastCount == 1:
+		elif lastCount == 1:
 			 b = parent1[lastCount]
-		if lastCount == 2:
+		elif lastCount == 2:
 			 c = parent1[lastCount]
-		if lastCount == 3:
+		elif lastCount == 3:
 			 d = parent1[lastCount]
-		if lastCount == 4:
+		elif lastCount == 4:
 			 e = parent1[lastCount]
 		lastCount += 1
+		
+def changeLiterals2(L):
+	lastCount = 0
+	global a
+	global b
+	global c
+	global d
+	global e
+	global parent1
+	global parent2
+	print(parent2)
+	while lastCount < len(L):
+		if lastCount == 0:
+			 a = parent2[lastCount]
+		elif lastCount == 1:
+			 b = parent2[lastCount]
+		elif lastCount == 2:
+			 c = parent2[lastCount]
+		elif lastCount == 3:
+			 d = parent2[lastCount]
+		elif lastCount == 4:
+			 e = parent2[lastCount]
+		lastCount += 1
 	
-def evaluation():
+def evaluation(L):
+	changeLiterals(L)
 	for p in population:
-		if eval(p) == 0:
+		if eval(p) == False:
+			print("nope")
+			break
+	changeLiterals2(L)
+	for p in population:
+		if eval(p) == False:
 			print("nope")
 			return False
 	print("yep")
@@ -115,9 +148,8 @@ def geneticCross(L):
 	notDone = False
 	if len(L) % 2 == 0:
 		crossEven()
-	if len(L) % 2 != 0:
+	elif len(L) % 2 != 0:
 		crossOdd()
-	return 0
 
 def main():
 	
@@ -144,11 +176,11 @@ def main():
 				population.append("")
 		next = file.read(1)
 		
-	while evaluation() == False:
+	geneticCross(Literals)
+	while evaluation(Literals) == False:
 		for p in population:
 			print(p)
 		geneticCross(Literals)
-		changeLiterals(Literals)
 		Mutate(Literals)
 
 	print("The solution is ")
@@ -156,13 +188,13 @@ def main():
 	while printCount < len(Literals):
 		if printCount == 0:
 			 print(str(a))
-		if printCount == 1:
+		elif printCount == 1:
 			 print(str(b))
-		if printCount == 2:
+		elif printCount == 2:
 			 print(str(c))
-		if printCount == 3:
+		elif printCount == 3:
 			 print(str(d))
-		if printCount == 4:
+		elif printCount == 4:
 			 print(str(e))
 		printCount += 1
 main()
