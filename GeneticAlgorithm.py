@@ -1,4 +1,5 @@
 import sys;
+from random import randint
 
 #Legend
 #V = 'or'
@@ -15,6 +16,29 @@ parent1 = []
 parent2 = []
 temp = []
 notDone = True
+muteRate = 10
+
+def Mutate(L):
+	if (randint(0, 100)) < muteRate:
+		global a
+		global b
+		global c
+		global d
+		global e
+		lastCount = 0
+		while lastCount < int(round(len(L) / 2)) - 1:
+			if lastCount == 0:
+			 a = not a
+			if lastCount == 1:
+			 b = not b
+			if lastCount == 2:
+			 c = not c
+			if lastCount == 3:
+			 d = not d
+			if lastCount == 4:
+			 e = not e
+		lastCount += 1
+	return 0
 
 def crossEven():
 	start = (len(parent1) / 2) - 1
@@ -125,6 +149,7 @@ def main():
 			print(p)
 		geneticCross(Literals)
 		changeLiterals(Literals)
+		Mutate(Literals)
 
 	print("The solution is ")
 	printCount = 0
