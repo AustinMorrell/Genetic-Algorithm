@@ -7,10 +7,10 @@ from random import randint
 #& = 'and'
 
 population = []
-a = 1
-b = 1
+a = 0
+b = 0
 c = 0
-d = 1
+d = 0
 e = 0
 parent1 = []
 parent2 = []
@@ -19,7 +19,9 @@ notDone = True
 muteRate = 50
 
 def Mutate(L):
-	if (randint(0, 100)) < muteRate:
+	rand = randint(0, 100)
+	#print(str(rand))
+	if (rand) < muteRate:
 		global a
 		global b
 		global c
@@ -137,7 +139,7 @@ def evaluation(L):
 	print("yep")
 	return True
 
-def geneticCross(L):
+def initParents(L):
 	county = 0
 	global notDone
 	while county < len(L) and notDone:
@@ -146,6 +148,8 @@ def geneticCross(L):
 		temp.append(0)
 		county += 1
 	notDone = False
+	
+def geneticCross(L):
 	if len(L) % 2 == 0:
 		crossEven()
 	elif len(L) % 2 != 0:
@@ -176,7 +180,7 @@ def main():
 				population.append("")
 		next = file.read(1)
 		
-	geneticCross(Literals)
+	initParents(Literals)
 	while evaluation(Literals) == False:
 		for p in population:
 			print(p)
